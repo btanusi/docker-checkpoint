@@ -43,20 +43,20 @@ const getEmailById = ( req, res ) => {
     })
 }
 
+// need to fix the LIKE querry to get working
 const searchEmails = ( req, res) => {
     const query = decodeURIComponent(req.query.query)
-    pool.query('SELECT * FROM emails WHERE CONTAINS (subject, $1)', [query], function(err, result ) {
+    console.log(query)
+    pool.query('SELECT * FROM emails WHERE subject LIKE $1', [query], function(err, result ) {
        if(err){
            throw err;
        } 
        if(result.rows.length === 0){
         res.send("Result not found")
         } else {
-        res.status(200).json(results.rows)
+        res.status(200).json(result.rows)
     }
-    })
-
-    
+    })   
 }
 
 //SELECT * FROM `my_table` WHERE CONTAINS(name, 'search')
@@ -75,5 +75,5 @@ const searchEmails = ( req, res) => {
 
 
 module.exports = {
-    getEmails, sendEmail, getEmailById,
+    getEmails, sendEmail, getEmailById, searchEmails,
   }

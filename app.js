@@ -1,4 +1,5 @@
 // Will Jantscher, Ada Lazuli, Brianna Tanusi
+// https://github.com/willjantscher/USAF-sdi-databases-checkpoint.git
 // database name:  sdi_databases_checkpoint
 
 // npm install
@@ -27,6 +28,8 @@ app.get('/emails', db.getEmails)
 app.post('/send', db.sendEmail)
 // get email with specific id
 app.get('/emails/:id', db.getEmailById)
+// get email with subject containing query
+app.get('/search', db.searchEmails)
 
 
 
