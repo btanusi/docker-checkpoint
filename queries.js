@@ -47,7 +47,7 @@ const getEmailById = ( req, res ) => {
 const searchEmails = ( req, res) => {
     const query = decodeURIComponent(req.query.query)
     console.log(query)
-    pool.query('SELECT * FROM emails WHERE subject LIKE $1', [query], function(err, result ) {
+    pool.query('SELECT * FROM emails WHERE subject LIKE $1', ['%' + query + '%'], function(err, result ) {
        if(err){
            throw err;
        } 
