@@ -4,7 +4,6 @@
 // npm install
 // npm i express pg
 
-
 // CREATE TABLE emails (id serial PRIMARY KEY, sender VARCHAR(320), recipient VARCHAR(320), subject TEXT, message TEXT, date TEXT); 
 
 
@@ -24,5 +23,8 @@ app.use(bodyParser.json())
 
 // get all emails in local db in JSON format
 app.get('/emails', db.getEmails)
+// add email with details in body in JSON format
+app.post('/send', db.sendEmail)
+
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

@@ -19,10 +19,32 @@ const getEmails = (req,res) => {
     })
 }
 
-const sendEmail = ( req, res) => {
-    
-}
+// const sendEmail = ( req, res) => {
+//     const { sender, recipient, subject, message, date } = req.body
+//     // console.log(req.body);
+//     pool.query('INSERT INTO emails (sender, recipient, subject, message, date) VALUES ($1, $2, $3, $4, $5)', [sender, recipient, subject, message, date], function (err, results) {
+//         if (err){
+//             throw err;
+//         }
+//         res.status(201).send(`Email added!`)
+//     })
+// }
 
+
+
+
+const sendEmail = ( req, res) => {
+        req.body.forEach( element => {
+            let { sender, recipient, subject, message, date } = element
+            pool.query('INSERT INTO emails (sender, recipient, subject, message, date) VALUES ($1, $2, $3, $4, $5)', [sender, recipient, subject, message, date], function (err, results) {
+                if (err){
+                    throw err;
+                }
+            })
+        });
+    res.status(201).send(`Emails added!`)
+    // console.log(req.body);
+}
 
 
 // app.get('/emails/:id', (req, res) => res.send(emails[req.params.id]))
@@ -62,5 +84,5 @@ const sendEmail = ( req, res) => {
 
 
 module.exports = {
-    getEmails,
+    getEmails, sendEmail,
   }
