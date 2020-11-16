@@ -25,6 +25,9 @@ app.use(bodyParser.json())
 app.get('/emails', db.getEmails)
 // add email with details in body in JSON format
 app.post('/send', db.sendEmail)
+// get email with specific id
+app.get('/emails/:id', db.getEmailById)
+
 
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

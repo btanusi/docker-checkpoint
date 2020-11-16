@@ -19,20 +19,6 @@ const getEmails = (req,res) => {
     })
 }
 
-// const sendEmail = ( req, res) => {
-//     const { sender, recipient, subject, message, date } = req.body
-//     // console.log(req.body);
-//     pool.query('INSERT INTO emails (sender, recipient, subject, message, date) VALUES ($1, $2, $3, $4, $5)', [sender, recipient, subject, message, date], function (err, results) {
-//         if (err){
-//             throw err;
-//         }
-//         res.status(201).send(`Email added!`)
-//     })
-// }
-
-
-
-
 const sendEmail = ( req, res) => {
         req.body.forEach( element => {
             let { sender, recipient, subject, message, date } = element
@@ -46,8 +32,35 @@ const sendEmail = ( req, res) => {
     // console.log(req.body);
 }
 
+const getEmailById = ( req, res ) => {
+    const id = parseInt(req.params.id)
+    pool.query('SELECT * FROM emails WHERE id = $1', [id], (err, results) => {
+        console.log(`The id being passed in is ${id}`);
+        if (err) {
+            throw err
+        }
+        res.status(200).json(results.rows)
+    })
+}
 
-// app.get('/emails/:id', (req, res) => res.send(emails[req.params.id]))
+const searchEmails = ( req, res) => {
+    const query = decodeURIComponent(req.query.query)
+    pool.query('SELECT * FROM emails WHERE CONTAINS (subject, $1)', [query], function(err, result ) {
+       if(err){
+           throw err;
+       } 
+       if(result.rows.length === 0){
+        res.send("Result not found")
+        } else {
+        res.status(200).json(results.rows)
+    }
+    })
+
+    
+}
+
+//SELECT * FROM `my_table` WHERE CONTAINS(name, 'search')
+
 
 // app.get('/search',(req,res) => {
 //     const query = decodeURIComponent(req.query.query)
@@ -56,33 +69,11 @@ const sendEmail = ( req, res) => {
 //     res.send(filteredEmails)
 // });
 
-// app.post('/send',function(req,res){
-//     let result;
-//     const emailSender = req.body;
-//     if(emailSender.sender && emailSender.recipient && emailSender.subject && emailSender.message){
-//         emails.push({ sender: emailSender.sender, recipient: emailSender.recipient, subject: emailSender.subject, email: emailSender.message, })
-
-//         result = {
-//             "status": "success",
-//             "message": "The message was successfully sent"
-//         }
-//     }else{ 
-//         result = {
-//             "status": "failed",
-//             "message": "The message was not sent"
-//         }
-//         res.status(400);
-//     }
-
-//     res.json(result);
-// });
-
-
 
 
 
 
 
 module.exports = {
-    getEmails, sendEmail,
+    getEmails, sendEmail, getEmailById,
   }
