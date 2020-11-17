@@ -14,14 +14,16 @@ const bodyParser = require("body-parser")
 
 const express = require('express')
 const app = express()
-const port = 3001
+const port = 3000
 const db = require('./queries')
 
 
 app.use(bodyParser.json())
 
 // const emails = JSON.parse(fs.readFileSync("emails.JSON"))
-
+// app.get('/', (req, res) => {
+//     res.status(200).send("hello world!")
+// }
 // get all emails in local db in JSON format
 app.get('/emails', db.getEmails)
 // add email with details in body in JSON format
